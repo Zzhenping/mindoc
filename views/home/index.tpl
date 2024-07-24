@@ -44,7 +44,7 @@
                                     {{$item.BookName}}
                                 </p>
                                 <p class="manual-info">
-                                    <span>1</span>
+                                    <span>{{i18n $.Lang "common.doc"}}: {{$item.DocCount}}</span> -
                                     <span>{{if eq $item.RealName "" }}{{$item.CreateName}}{{else}}{{$item.RealName}}{{end}}</span>
                                 </p>
                             </div>
