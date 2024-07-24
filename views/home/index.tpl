@@ -26,17 +26,29 @@
              <div class="new-manual-list">
                 {{range $index,$item := .Lists}}
                     <div class="list-item" data-id="{{$item.BookId}}">
-                        <div class="list-item-title" ></div>
-                        <div class="list-item-content">
-                            <p class="list-item-tag">PM</p>
-                            <p class="manual-name">
-                                wangEditor111111111111111111111111111111111111111111111111
-                            </p>
-                            <p class="manual-info">
-                                <span>1</span>
-                                <span>admin</span>
-                            </p>
-                        </div>
+                        <a href="{{urlfor "DocumentController.Index" ":key" $item.Identify}}" class="name" title="{{$item.BookName}}-{{$item.CreateName}}">
+                            <div class="list-item-title" ></div>
+                            <div class="list-item-content">
+                                {{if eq $item.Editor "markdown" }}
+                                <p class="list-item-tag">MD</p>
+                                {{else if eq $item.Editor "cherry_markdown" }}
+                                <p class="list-item-tag">CM</p>
+                                {{else if eq $item.Editor "html" }}
+                                <p class="list-item-tag">QL</p>
+                                {{else if eq $item.Editor "new_html" }}
+                                <p class="list-item-tag">WE</p>
+                                {{else}}
+                                <p class="list-item-tag">Emp</p>
+                                {{end}}
+                                <p class="manual-name">
+                                    {{$item.BookName}}
+                                </p>
+                                <p class="manual-info">
+                                    <span>1</span>
+                                    <span>{{if eq $item.RealName "" }}{{$item.CreateName}}{{else}}{{$item.RealName}}{{end}}</span>
+                                </p>
+                            </div>
+                        </a>
                     </div>
 
                 {{else}}
