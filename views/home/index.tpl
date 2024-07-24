@@ -23,31 +23,25 @@
     {{template "widgets/header.tpl" .}}
     <div class="container manual-body">
         <div class="row">
-             <div class="manual-list">
+             <div class="new-manual-list">
                 {{range $index,$item := .Lists}}
                     <div class="list-item" data-id="{{$item.BookId}}">
-                        <dl class="manual-item-standard">
-                            <dt>
-                                <a href="{{urlfor "DocumentController.Index" ":key" $item.Identify}}" title="{{$item.BookName}}-{{$item.CreateName}}">
-                                    <img src="{{cdnimg $item.Cover}}" class="cover" alt="{{$item.BookName}}-{{$item.CreateName}}" onerror="this.src='{{cdnimg "static/images/book.jpg"}}';">
-                                </a>
-                            </dt>
-                            <dd>
-                                <a href="{{urlfor "DocumentController.Index" ":key" $item.Identify}}" class="name" title="{{$item.BookName}}-{{$item.CreateName}}">{{$item.BookName}}</a>
-                            </dd>
-                            <dd>
-                            <span class="author">
-                                <b class="text">{{i18n $.Lang "blog.author"}}</b>
-                                <b class="text">-</b>
-                                <b class="text">{{if eq $item.RealName "" }}{{$item.CreateName}}{{else}}{{$item.RealName}}{{end}}</b>
-                            </span>
-                            </dd>
-                        </dl>
+                        <div class="list-item-title" ></div>
+                        <div class="list-item-content">
+                            <p class="list-item-tag">PM</p>
+                            <p class="manual-name">
+                                wangEditor111111111111111111111111111111111111111111111111
+                            </p>
+                            <p class="manual-info">
+                                <span>1</span>
+                                <span>admin</span>
+                            </p>
+                        </div>
                     </div>
+
                 {{else}}
                     <div class="text-center" style="height: 200px;margin: 100px;font-size: 28px;">{{i18n $.Lang "message.no_project"}}</div>
                 {{end}}
-                <div class="clearfix"></div>
             </div>
             <nav class="pagination-container">
                 {{if gt .TotalPages 1}}
