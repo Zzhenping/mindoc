@@ -64,10 +64,18 @@
                     </div>
                 </div>
                 <div>
-                    <button type="submit"
+                    <button v-show="!loading" type="submit"
                             class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
 
                         Sign in
+                    </button>
+
+                    <button v-show="loading" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <svg class="animate-spin h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0c4.418 0 8 3.582 8 8 0 4.418-3.582 8-8 8v-4a4 4 0 11-8 0V12z"></path>
+                        </svg>
+                        loding
                     </button>
                 </div>
             </form>
@@ -113,6 +121,7 @@
                 code: "",
                 is_remember: false
             })
+            const loading = ref(false)
             const captchaUri = ref('{{urlfor "AccountController.Captcha"}}');
 
             const switchCaptcha = () => {
@@ -126,6 +135,7 @@
                 }
             };
             const handleSubmit = () => {
+                loading.value = true
                 const params = new FormData();
                 const realFormData = formData.value;
                 params.append('account', realFormData.account);
@@ -145,11 +155,16 @@
                         throw new Error('Network response was not ok');
                     }
                 }).then(res => {
-                    if (res.errcode === 6001) {
-                        // 验证码错误
-                        formData.value.code = ""
-                    }
+                    switchCaptcha()
+                    loading.value = false
                     if (res.errcode !== 0) {
+                        switch (res.errcode) {
+                            case 6001:
+                                formData.value.code = ""
+                                break;
+                            default:
+                                formData.value = [];
+                        }
                         layer.msg(res.message, {icon: 0});
                     } else {
                         let turl = res.data;
@@ -168,7 +183,8 @@
                 handleInputChange,
                 switchCaptcha,
                 captchaUri,
-                formData
+                formData,
+                loading
             }
         },
     }).mount('#loginApp')
