@@ -70,9 +70,7 @@
                         <div class="w-full border-t border-gray-300"></div>
                     </div>
                     <div class="relative flex justify-center text-sm">
-                        <span class="px-2 bg-gray-100 text-gray-500">
-                            Or
-                        </span>
+                        <span class="px-2 bg-gray-100 text-gray-500 py-1 px-2">Or</span>
                     </div>
                 </div>
 
