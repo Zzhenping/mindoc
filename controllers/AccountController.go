@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/mindoc-org/mindoc/cache"
 	"github.com/mindoc-org/mindoc/utils/auth2"
 	"github.com/mindoc-org/mindoc/utils/auth2/dingtalk"
@@ -121,6 +122,8 @@ func (c *AccountController) Login() {
 		account := c.GetString("account")
 		password := c.GetString("password")
 		captcha := c.GetString("code")
+		fmt.Println("====")
+		fmt.Println(captcha)
 		isRemember := c.GetString("is_remember")
 
 		// 如果开启了验证码

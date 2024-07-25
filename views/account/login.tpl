@@ -14,36 +14,45 @@
     <script src="{{cdnjs "/static/jquery/1.12.4/jquery.min.js"}}"></script>
 </head>
 <body class="manual-container">
-<div class="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+<div class="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8" id="loginApp">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
             {{i18n .Lang "common.login"}}
         </h2>
     </div>
-
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-            <form class="space-y-6" method="POST">
+            <form class="space-y-6" @submit.prevent="handleSubmit">
                 <div>
                     <div class="mt-1">
-                        <input id="username" name="username" required
+                        <input v-model="formData.account" @input="handleInputChange('account', $event.target.value)" autocomplete="account" id="account" name="account" required
                                class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                               placeholder="{{i18n .Lang "common.email"}} / {{i18n .Lang "common.username"}}">
+                               placeholder='{{i18n .Lang "common.email"}} / {{i18n .Lang "common.username"}}'>
                     </div>
                 </div>
                 <div>
                     <div class="mt-1">
-                        <input id="password" name="password" type="password" autocomplete="current-password" required
+                        <input v-model="formData.password" @input="handleInputChange('password', $event.target.value)" id="password" name="password" type="password" autocomplete="current-password" required
                                class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                placeholder="{{i18n .Lang "common.password"}}">
                     </div>
                 </div>
-
+                <div class="flex justify-between">
+                    {{if .ENABLED_CAPTCHA }}
+                    {{if ne .ENABLED_CAPTCHA "false"}}
+                    <div class="input-group-addon">
+                        <i class="fa fa-check-square"></i>
+                    </div>
+                    <input required v-model="formData.code" @input="handleInputChange('code', $event.target.value)" type="text" name="code" id="code" class="ppearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm mr-3" maxlength="5" placeholder='{{i18n .Lang "common.captcha"}}' autocomplete="off" />
+                    <img :src='captchaUri' @click="switchCaptcha"  title='{{i18n .Lang "message.click_to_change"}}'>
+                    {{end}}
+                    {{end}}
+                </div>
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
-                        <input id="remember_me" name="remember_me" type="checkbox"
+                        <input v-model="formData.is_remember" @input="handleInputChange('is_remember', $event.target.value)" id="is_remember" name="is_remember" type="checkbox"
                                class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                        <label for="remember_me" class="ml-2 block text-sm text-gray-900">
+                        <label for="is_remember" class="ml-2 block text-sm text-gray-900">
                             {{i18n .Lang "common.keep_login"}}
                         </label>
                     </div>
@@ -54,7 +63,6 @@
                         </a>
                     </div>
                 </div>
-
                 <div>
                     <button type="submit"
                             class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -64,7 +72,6 @@
                 </div>
             </form>
             <div class="mt-6">
-
                 <div class="relative">
                     <div class="absolute inset-0 flex items-center">
                         <div class="w-full border-t border-gray-300"></div>
@@ -92,88 +99,79 @@
         </div>
     </div>
 </div>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="{{cdnjs "/static/bootstrap/js/bootstrap.min.js"}}" type="text/javascript"></script>
+
 <script src="{{cdnjs "/static/layer/layer.js"}}" type="text/javascript"></script>
+<script src="{{cdnjs "/static/v3/js/vue.js"}}" type="text/javascript"></script>
+<script>
+    const { createApp, ref, watch } = Vue
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#account,#password,#code").on('focus', function () {
-            $(this).tooltip('destroy').parents('.form-group').removeClass('has-error');
-        });
+    createApp({
+        setup() {
+            const formData = ref({
+                account: "",
+                password: "",
+                code: "",
+                is_remember: false
+            })
+            const captchaUri = ref('{{urlfor "AccountController.Captcha"}}');
 
-        $(document).keydown(function (e) {
-            var event = document.all ? window.event : e;
-            if (event.keyCode === 13) {
-                $("#btn-login").click();
+            const switchCaptcha = () => {
+                captchaUri.value = '{{urlfor "AccountController.Captcha"}}?key=login&t='+(new Date()).getTime();
             }
-        });
-
-        $(".icon").on('click', function (){
-           if ($(this).hasClass("icon-disable")) {
-               return;
-           }
-           window.location.href = $(this).data("url");
-        })
-
-        $("#btn-login").on('click', function () {
-            $(this).tooltip('destroy').parents('.form-group').removeClass('has-error');
-            var $btn = $(this).button('loading');
-
-            var account = $.trim($("#account").val());
-            var password = $.trim($("#password").val());
-            var code = $("#code").val();
-
-            if (account === "") {
-                $("#account").tooltip({ placement: "auto", title: "{{i18n .Lang "message.account_empty"}}", trigger: 'manual' })
-                    .tooltip('show')
-                    .parents('.form-group').addClass('has-error');
-                $btn.button('reset');
-                return false;
-            } else if (password === "") {
-                $("#password").tooltip({ title: '{{i18n .Lang "message.password_empty"}}', trigger: 'manual' })
-                    .tooltip('show')
-                    .parents('.form-group').addClass('has-error');
-                $btn.button('reset');
-                return false;
-            } else if (code !== undefined && code === "") {
-                $("#code").tooltip({ title: '{{i18n .Lang "message.captcha_empty"}}', trigger: 'manual' })
-                    .tooltip('show')
-                    .parents('.form-group').addClass('has-error');
-                $btn.button('reset');
-                return false;
-            } else {
-                $.ajax({
-                    url: "{{urlfor "AccountController.Login" "url" .url}}",
-                    data: $("form").serializeArray(),
-                    dataType: "json",
-                    type: "POST",
-                    success: function (res) {
-                        if (res.errcode !== 0) {
-                            $("#captcha-img").click();
-                            $("#code").val('');
-                            layer.msg(res.message);
-                            $btn.button('reset');
-                        } else {
-                            turl = res.data;
-                            if (turl === "") {
-                                turl = "/";
-                            }
-                            window.location = turl;
-                        }
-                    },
-                    error: function () {
-                        $("#captcha-img").click();
-                        $("#code").val('');
-                        layer.msg('{{i18n .Lang "message.system_error"}}');
-                        $btn.button('reset');
+            const handleInputChange = (key, value) => {
+                if (key === 'is_remember') {
+                    formData.value[key] = !!value;
+                } else {
+                    formData.value[key] = value;
+                }
+            };
+            const handleSubmit = () => {
+                const params = new FormData();
+                const realFormData = formData.value;
+                params.append('account', realFormData.account);
+                params.append('password', realFormData.password);
+                params.append('code', realFormData.code);
+                if (realFormData.is_remember) {
+                    params.append('is_remember', "yes");
+                }
+                fetch({{urlfor "AccountController.Login" "url" .url}}, {
+                    method: 'POST',
+                    body: params
+                }).then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        layer.msg("123")
+                        throw new Error('Network response was not ok');
                     }
+                }).then(res => {
+                    if (res.errcode === 6001) {
+                        // 验证码错误
+                        formData.value.code = ""
+                    }
+                    if (res.errcode !== 0) {
+                        layer.msg(res.message, {icon: 0});
+                    } else {
+                        let turl = res.data;
+                        if (turl === "") {
+                            turl = "/";
+                        }
+                        window.location = turl;
+                    }
+                }).catch(error => {
+                    layer.msg(error);
                 });
             }
 
-            return false;
-        });
-    });
+            return {
+                handleSubmit,
+                handleInputChange,
+                switchCaptcha,
+                captchaUri,
+                formData
+            }
+        },
+    }).mount('#loginApp')
 </script>
 </body>
 </html>
