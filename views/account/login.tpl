@@ -44,7 +44,7 @@
                         <i class="fa fa-check-square"></i>
                     </div>
                     <input required v-model="formData.code" @input="handleInputChange('code', $event.target.value)" type="text" name="code" id="code" class="ppearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm mr-3" maxlength="5" placeholder='{{i18n .Lang "common.captcha"}}' autocomplete="off" />
-                    <img :src='captchaUri' @click="switchCaptcha"  title='{{i18n .Lang "message.click_to_change"}}'>
+                    <img class="cursor-pointer" :src='captchaUri' @click="switchCaptcha"  title='{{i18n .Lang "message.click_to_change"}}'>
                     {{end}}
                     {{end}}
                 </div>
