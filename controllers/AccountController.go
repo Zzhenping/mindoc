@@ -149,6 +149,7 @@ func (c *AccountController) Login() {
 				remember.MemberId = member.MemberId
 				remember.Account = member.Account
 				remember.Time = time.Now()
+
 				v, err := utils.Encode(remember)
 				if err == nil {
 					c.SetSecureCookie(conf.GetAppKey(), "login", v, time.Now().Add(time.Hour*24*30).Unix())
