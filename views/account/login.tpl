@@ -65,12 +65,12 @@
                 </div>
                 <div>
                     <button v-show="!loading" type="submit"
-                            class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
 
                         Sign in
                     </button>
 
-                    <button v-show="loading" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <button v-show="loading" class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         <svg class="animate-spin h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0c4.418 0 8 3.582 8 8 0 4.418-3.582 8-8 8v-4a4 4 0 11-8 0V12z"></path>
@@ -78,10 +78,10 @@
                         loding
                     </button>
 
-                    <button type="button" class="group relative mt-2 w-full flex justify-center py-2 px-4 border border-gray-200 border-#cececd text-gray-700 text-#606266 border-transparent text-sm font-medium rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:text-white">
-
+                    <a href="{{urlfor "AccountController.Register" }}"
+                       class="w-full flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 mt-3 bg-white hover:bg-indigo-600 hover:text-white">
                         Register
-                    </button>
+                    </a>
                 </div>
             </form>
             <div class="mt-6">
