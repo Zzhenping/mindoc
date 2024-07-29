@@ -17,7 +17,7 @@
 <div class="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8" id="loginApp">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            {{i18n .Lang "common.login"}}
+            {{i18n .Lang "common.login"}}-{{.SITE_NAME}}
         </h2>
     </div>
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
@@ -26,14 +26,14 @@
                 <div>
                     <div class="mt-1">
                         <input v-model="formData.account" @input="handleInputChange('account', $event.target.value)" autocomplete="account" id="account" name="account" required
-                               class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                               class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm hover:border-indigo-500 transition duration-300"
                                placeholder='{{i18n .Lang "common.email"}} / {{i18n .Lang "common.username"}}'>
                     </div>
                 </div>
                 <div>
                     <div class="mt-1">
                         <input v-model="formData.password" @input="handleInputChange('password', $event.target.value)" id="password" name="password" type="password" autocomplete="current-password" required
-                               class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                               class="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm hover:border-indigo-500 transition duration-300"
                                placeholder="{{i18n .Lang "common.password"}}">
                     </div>
                 </div>
@@ -65,12 +65,12 @@
                 </div>
                 <div>
                     <button v-show="!loading" type="submit"
-                            class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300">
 
                         Sign in
                     </button>
 
-                    <button v-show="loading" class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <button v-show="loading" class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-300">
                         <svg class="animate-spin h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0c4.418 0 8 3.582 8 8 0 4.418-3.582 8-8 8v-4a4 4 0 11-8 0V12z"></path>
@@ -79,7 +79,7 @@
                     </button>
 
                     <a href="{{urlfor "AccountController.Register" }}"
-                       class="w-full flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 mt-3 bg-white hover:bg-indigo-600 hover:text-white">
+                       class="w-full flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 mt-3 bg-white hover:bg-indigo-600 hover:text-white transition duration-300">
                         Register
                     </a>
                 </div>
