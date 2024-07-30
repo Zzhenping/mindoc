@@ -97,13 +97,13 @@
             <div class="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1">
                 <ul class="flex items-center text-base text-gray-700 flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
                     <li>
-                        <a href="{{urlfor "HomeController.Index" }}" class="font-semibold block py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 dark:text-white" aria-current="page">{{i18n .Lang "common.home"}}</a>
+                        <a href="{{urlfor "HomeController.Index" }}" class="{{if eq .ControllerName "HomeController"}}lg:text-primary-700{{end}} font-semibold block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0" aria-current="page">{{i18n .Lang "common.home"}}</a>
                     </li>
                     <li>
-                        <a href="{{urlfor "BlogController.List" }}" class="font-semibold block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">{{i18n .Lang "common.blog"}}</a>
+                        <a href="{{urlfor "BlogController.List" }}" class="{{if eq .ControllerName "BlogController"}}lg:text-primary-700{{end}} font-semibold block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0">{{i18n .Lang "common.blog"}}</a>
                     </li>
                     <li>
-                        <a href="{{urlfor "ItemsetsController.Index" }}" class="font-semibold block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">{{i18n .Lang "common.project_space"}}</a>
+                        <a href="{{urlfor "ItemsetsController.Index" }}" class="{{if eq .ControllerName "ItemsetsController"}}lg:text-primary-700{{end}} font-semibold block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0">{{i18n .Lang "common.project_space"}}</a>
                     </li>
                     <li>
                         <input autocomplete="search" id="search" name="search" required
