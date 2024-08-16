@@ -11,45 +11,46 @@
     <meta name="author" content="Minho" />
     <meta name="site" content="https://www.iminho.me" />
     <!-- Bootstrap -->
-    <link href="{{cdncss "/static/bootstrap/css/bootstrap.min.css"}}" rel="stylesheet">
-    <link href="{{cdncss "/static/font-awesome/css/font-awesome.min.css"}}" rel="stylesheet">
-
-    <link href="{{cdncss "/static/css/main.css" "version"}}" rel="stylesheet">
+    <link rel="stylesheet" href="{{cdnjs "/static/v3/css/main.css"}}">
 
 </head>
 <body>
 <div class="manual-reader manual-container manual-search-reader">
-{{template "widgets/header.tpl" .}}
-    <div class="container manual-body">
-        <div class="search-head">
-            <strong class="search-title">{{i18n .Lang "project.prj_space_list"}}</strong>
-        </div>
-        <div class="row">
-            <div class="hide tag-container-outer" style="border: 0;margin-top: 0;padding: 5px 15px;min-height: 200px;">
-                <div class="attach-list" id="ItemsetsList">
-                {{range $index,$item := .Lists}}
-                    <a href="{{urlfor "ItemsetsController.List" ":key" $item.ItemKey}}" class="ui-card" title="{{$item.ItemName}}">
-                    <div class="header">{{$item.ItemName}}</div>
-                        <div class="description">{{i18n $.Lang "project.prj_amount"}}：{{$item.BookNumber}} &nbsp; {{i18n $.Lang "project.creator"}}：{{$item.CreateName}}<br/> {{i18n $.Lang "project.create_time"}}：{{$item.CreateTimeString}}</div>
-                    </a>
-                {{else}}
-                    <div class="search-empty">
-                        <img src="{{cdnimg "/static/images/search_empty.png"}}" class="empty-image">
-                        <span class="empty-text">{{i18n .Lang "project.no_projct_space"}}</span>
-                    </div>
-                {{end}}
-                </div>
-            </div>
+    {{template "widgets/header.tpl" .}}
 
-            <nav class="pagination-container">
-                {{if gt .TotalPages 1}}
-                    {{.PageHtml}}
+    <div class="bg-white ">
+        <div class="max-w-screen-xl mx-auto my-4">
+            <div class="mx-auto mt-10 max-w-2xl lg:mx-0">
+                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                    {{i18n .Lang "project.prj_space_list"}}
+                </h2>
+            </div>
+            <div class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 mt-10 pt-10 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+                {{range $index,$item := .Lists}}
+                <article class="flex max-w-xl flex-col items-start justify-between border rounded-lg px-8 py-8">
+                    <a href="">
+                        <div class="flex items-center gap-x-4 text-xs">
+                            <time datetime="2020-03-16" class="text-gray-500">{{$item.CreateTimeString}}</time>
+                            <a href="#" class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">{{$item.CreateName}}</a>
+                            <time datetime="2020-03-16" class="text-gray-500">{{i18n $.Lang "project.prj_amount"}}：{{$item.BookNumber}}</time>
+                        </div>
+                        <div class="group relative">
+                            <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+                                <a href="#">
+                                    <span class="absolute inset-0"></span>
+                                    {{$item.ItemName}}
+                                </a>
+                            </h3>
+                        </div>
+                    </a>
+                </article>
+                {{else}}
+
                 {{end}}
-                <div class="clearfix"></div>
-            </nav>
+                <!-- More posts... -->
+            </div>
         </div>
     </div>
-{{template "widgets/footer.tpl" .}}
 </div>
 <script src="{{cdnjs "/static/jquery/1.12.4/jquery.min.js"}}" type="text/javascript"></script>
 <script src="{{cdnjs "/static/bootstrap/js/bootstrap.min.js"}}" type="text/javascript"></script>
