@@ -21,14 +21,29 @@
 
     <div class="bg-white ">
         <div class="max-w-screen-xl mx-auto my-4">
-            <div class="mx-auto mt-10 max-w-2xl lg:mx-0">
-                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                    {{i18n .Lang "project.prj_space_list"}}
-                </h2>
-            </div>
-            <div class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 mt-10 pt-10 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+            <nav class="flex justify-between mb-1 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700" aria-label="Breadcrumb">
+                <ol class="ml-3 inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                    <li class="inline-flex items-center">
+                        <a href="{{urlfor "HomeController.Index" }}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                            <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/>
+                            </svg>
+                            {{i18n .Lang "common.home"}}
+                        </a>
+                    </li>
+                    <li>
+                        <div class="flex items-center">
+                            <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                            </svg>
+                            <a href="{{urlfor "ItemsetsController.Index" }}" class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">{{i18n .Lang "project.prj_space_list"}}</a>
+                        </div>
+                    </li>
+                </ol>
+            </nav>
+            <div class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 pt-5 lg:mx-0 lg:max-w-none lg:grid-cols-3">
                 {{range $index,$item := .Lists}}
-                <article class="flex max-w-xl flex-col items-start justify-between border rounded-lg">
+                <article class="flex max-w-xl flex-col items-start justify-between border rounded-lg hover:shadow-lg transition transition-all">
                     <a href="{{urlfor "ItemsetsController.List" ":key" $item.ItemKey}}" class="mx-auto px-8 py-8">
                         <div class="flex items-center gap-x-4 text-xs">
                             <time datetime="2020-03-16" class="text-gray-500">{{$item.CreateTimeString}}</time>
